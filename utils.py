@@ -11,7 +11,7 @@ class WebdatasetFilter():
         self.max_pwatermark = max_pwatermark
         self.aesthetic_threshold = aesthetic_threshold
         self.unsafe_threshold = unsafe_threshold
-        self.text_conditions = text_conditions 
+        self.text_conditions = text_conditions
 
     def __call__(self, x):
         try:
@@ -24,7 +24,7 @@ class WebdatasetFilter():
                 filter_aesthetic_b = (x_json.get('AESTHETIC_SCORE', 0.0) or 0.0) >= self.aesthetic_threshold
                 filter_unsafe = (x_json.get('punsafe', 1.0) or 1.0) <= self.unsafe_threshold
                 if self.text_conditions is not None:
-                    caption = x['txt'].decode("utf-8") 
+                    caption = x['txt'].decode("utf-8")
                     filter_min_words = len(caption.split(" ")) >= self.text_conditions['min_words']
                     filter_ord_128 = all([ord(c) < 128 for c in caption])
                     filter_forbidden_words = all([c not in caption.lower() for c in self.text_conditions['forbidden_words']])
@@ -40,13 +40,13 @@ class WebdatasetFilter():
 
 transforms = torchvision.transforms.Compose([
     torchvision.transforms.ToTensor(),
-    torchvision.transforms.Resize(512),
-    torchvision.transforms.RandomCrop(512),
+    torchvision.transforms.Resize(1024),
+    torchvision.transforms.RandomCrop(1024),
 ])
 
 effnet_preprocess = torchvision.transforms.Compose([
-    torchvision.transforms.Resize(384, interpolation=torchvision.transforms.InterpolationMode.BILINEAR, antialias=True),
-    torchvision.transforms.CenterCrop(384),
+    torchvision.transforms.Resize(768, interpolation=torchvision.transforms.InterpolationMode.BILINEAR, antialias=True),
+    torchvision.transforms.CenterCrop(768),
     torchvision.transforms.Normalize(
         mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
     )

@@ -1,4 +1,6 @@
 webdataset
 transformers
 warmup_scheduler
+matplotlib
+wandb
 pytorch-tools @ git+https://github.com/pabloppp/pytorch-tools@master

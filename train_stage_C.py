@@ -436,12 +436,8 @@ def train(n_nodes=1):
                 torchvision.utils.save_image(
                     torch.cat(
                         [
-                            # torch.cat([i for i in images.cpu()], dim=-1),
-                            # torch.cat([i for i in noised_images.cpu()], dim=-1),
-                            # torch.cat([i for i in pred_images.cpu()], dim=-1),
                             torch.cat([i for i in sampled_images.cpu()], dim=-1),
                             torch.cat([i for i in sampled_images_ema.cpu()], dim=-1),
-                            # torch.cat([i for i in sampled_images_original.cpu()], dim=-1),
                         ],
                         dim=-2,
                     ),

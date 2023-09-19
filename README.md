@@ -16,6 +16,13 @@ pip install -r requirements.txt
 - run with torch run (e.g. `./go.sh`)
 - testing on 2xA6000, with pokemon dataset, trains about 1.5 iterations/s
 
+After 4750 iterations the outputs look like this (ema top, non-ema bottom):
+
+![](pokemon-004750.jpg)
+
+I'll let others do fancy things like Dreambooth, lora, etc.
+
+
 
 ## Original README
 

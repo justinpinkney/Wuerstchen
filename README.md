@@ -1,3 +1,25 @@
+Update stage C training script for v2 model.
+
+- download v2 pretrained models as in stage-C notebooks
+- get a webdataset (.tar files for images and text files) (e.g. [justinpinkney/pokemon-blip-captions-wds](https://huggingface.co/datasets/justinpinkney/pokemon-blip-captions-wds))
+- install repo
+
+```
+git clone https://github.com/justinpinkney/Wuerstchen.git
+cd Wuerstchen
+conda create --name w2 python=3.10.12
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+pip install -r requirements.txt
+```
+
+- edit parameters in `train_stage_C.py`
+- run with torch run (e.g. `./go.sh`)
+- testing on 2xA6000, with pokemon dataset, trains about 1.5 iterations/s
+
+
+## Original README
+
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KeN407dItcjLcWdMLrByZ8mPa1MT2_DJ?usp=sharing)
 # Würstchen
 ![main-figure-github](https://github.com/dome272/wuerstchen/assets/61938694/cc811cfd-c603-4767-bdc7-4cd1539daa35)
@@ -11,7 +33,7 @@ You can use the model simply through the notebooks here. The [Stage B](https://g
 
 ### Using in 🧨 diffusers
 
-Würstchen is fully integrated into the [`diffusers` library](https://huggingface.co/docs/diffusers). Here's how to use it: 
+Würstchen is fully integrated into the [`diffusers` library](https://huggingface.co/docs/diffusers). Here's how to use it:
 
 ```python
 # pip install -U transformers accelerate diffusers
@@ -24,7 +46,7 @@ pipe = AutoPipelineForText2Image.from_pretrained("warp-ai/wuerstchen", torch_dty
 
 caption = "Anthropomorphic cat dressed as a fire fighter"
 images = pipe(
-    caption, 
+    caption,
     width=1024,
     height=1536,
     prior_timesteps=DEFAULT_STAGE_C_TIMESTEPS,
@@ -33,11 +55,11 @@ images = pipe(
 ).images
 ```
 
-Refer to the [official documentation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/wuerstchen) to learn more. 
+Refer to the [official documentation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/wuerstchen) to learn more.
 
 ## Train your own Würstchen
 Training Würstchen is considerably faster and cheaper than other text-to-image as it trains in a much smaller latent space of 12x12.
-We provide training scripts for both [Stage B](https://github.com/dome272/wuerstchen/blob/main/train_stage_B.py) and [Stage C](https://github.com/dome272/wuerstchen/blob/main/train_stage_C.py). 
+We provide training scripts for both [Stage B](https://github.com/dome272/wuerstchen/blob/main/train_stage_B.py) and [Stage C](https://github.com/dome272/wuerstchen/blob/main/train_stage_C.py).
 
 ## Download Models
 | Model           | Download                                             | Parameters      | Conditioning                       | Training Steps | Resolution |

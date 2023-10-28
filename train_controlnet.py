@@ -24,7 +24,9 @@ import cv2
 def to_canny(t):
     im = t.permute(1,2,0).cpu().numpy()
     im = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)
-    edges = cv2.Canny((255*im).astype(np.uint8), 100, 200)
+    low = np.random.randint(10, 150)
+    high = np.random.randint(100, 250)
+    edges = cv2.Canny((255*im).astype(np.uint8), low, high)
     return 2*(torch.tensor(edges.astype(np.float32)/255).unsqueeze(0) - 0.5)
 
 
@@ -43,7 +45,7 @@ print_every = 250 * grad_accum_steps
 extra_ckpt_every = 1000 * grad_accum_steps
 lr = 5e-5
 
-dataset_path =  "laion-sac/0000{0..4}.tar"
+dataset_path =  "ds/0000{0..4}.tar"
 run_name = "canny_cnet"
 output_path = f"output/{run_name}"
 os.makedirs(output_path, exist_ok=True)
@@ -107,8 +109,6 @@ class ControlNet(torch.nn.Module):
         state = torch.load(ckpt, map_location="cpu")
         state = state['ema_state_dict'] if 'ema_state_dict' in state else state['state_dict']
         self.base_model.load_state_dict(state)
-        # for p in self.base_model.parameters():
-        #     p.requires_grad_(False)
 
         self.control_model = Prior(c_in=16, c=1536, c_cond=1280, c_r=64, depth=32, nhead=24)
         self.control_model.load_state_dict(state)

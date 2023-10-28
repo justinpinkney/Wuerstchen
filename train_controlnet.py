@@ -313,11 +313,11 @@ def train(n_nodes=1):
             effnet_features = effnet(effnet_preprocess(images))
             with torch.cuda.amp.autocast(dtype=_float16_dtype):
                 if (
-                    np.random.rand() < 0.05
-                ):  # 90% of the time, drop the CLIP text embeddings (independently)
+                    np.random.rand() < 0.5 # drop 50% for controlnet
+                ):
                     clip_captions = [""] * len(
                         captions
-                    )  # 5% of the time drop all the captions
+                    )
                 else:
                     clip_captions = captions
                 clip_tokens = clip_tokenizer(

@@ -1,0 +1,1 @@
+torchrun --nnodes=1 --nproc-per-node=1 train_controlnet.py
